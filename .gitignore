@@ -2,3 +2,5 @@ __pycache__
 .neptune
 lightning_logs/
 *csv
+!data_val_train_kfold/*.csv
+!data/*.csv
