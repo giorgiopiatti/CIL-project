@@ -6,3 +6,4 @@ lightning_logs/
 !data/*.csv
 
 !AE_base_results/*.csv
+!results_ensemble/*/*.csv
