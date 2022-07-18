@@ -76,3 +76,10 @@ def save_predictions(res_path, predictions):
 
  
     test_pd.to_csv(res_path, index=False, float_format='%.3f')
+
+
+
+def save_predictions_from_pandas(res_path, predictions, index_pd):
+    index_pd = index_pd.astype({'Prediction': 'float'})
+    index_pd.iloc[:, 1] = predictions
+    index_pd.to_csv(res_path, index=False, float_format='%.3f')
