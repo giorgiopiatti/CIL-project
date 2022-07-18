@@ -22,7 +22,7 @@ BATCH_SIZE = 256
 DATA_DIR = '../data'
 
 
-DIR_RESULTS = '/cluster/scratch/piattigi/CIL/res_optuna/'
+DIR_RESULTS = '/cluster/scratch/ncorecco/CIL/res_optuna/'
 EXPERIMENT_NAME = 'NCF_distribution SWA manual optuna'
 EXPERIMENT_NAME+='-'+str(uuid.uuid4())[:8]
 N_OPTUNA_TRIALS = 200

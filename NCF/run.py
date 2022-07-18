@@ -14,41 +14,6 @@ BATCH_SIZE = 256
 DATA_DIR = '../data'
 
 #Data source and split into val and train
-import random
-class SingleMovieSample(torch.utils.data.Sampler):
-
-    def __init__(self, dataset, batch_size, drop_last=True):
-        super().__init__(dataset)
-
-        index_for_movies = {}
-
-        for i, triplet in enumerate(dataset):
-           
-            str_movie = str(triplet[0][1])
-
-            if str_movie not in index_for_movies:
-                index_for_movies[str_movie] = []
-            
-            index_for_movies[str_movie] +=[i]
-        
-        trimmed = index_for_movies
-        if drop_last:
-            trimmed = { 
-                k: v[:-(len(v) % batch_size)] 
-                for k, v in index_for_movies.items()
-            }
-
-        trimmed_values = trimmed.values()
-
-        self._indices = [lst[i:i + batch_size] for lst in trimmed_values for i in range(0, len(lst), batch_size) ]
-        random.shuffle(self._indices)
-
-    
-    def __len__(self):
-        return len(self._indices)
-    
-    def __iter__(self):
-        yield from self._indices
 
 
 data_pd = pd.read_csv(DATA_DIR+'/data_train.csv')
@@ -72,8 +37,8 @@ test_dataloader = torch.utils.data.DataLoader(d_test, batch_size=BATCH_SIZE, dro
 
 
 
-EXPERIMENT_NAME = 'NCF_help_debug'
-DEBUG = False
+EXPERIMENT_NAME = 'NCF'
+DEBUG = True
 
 proxies = {
 'http': 'http://proxy.ethz.ch:3128',

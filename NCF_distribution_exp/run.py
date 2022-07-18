@@ -17,7 +17,7 @@ DATA_DIR = '../data'
 data_pd = pd.read_csv(DATA_DIR+'/data_train.csv')
 train_pd, val_pd = train_test_split(data_pd, train_size=0.9, random_state=RANDOM_STATE)
 
-train_pd = data_pd
+
 
 users_train, movies_train, ratings_train = extract_users_movies_ratings_lists(train_pd)
 d_train = TripletDataset(users_train, movies_train, ratings_train)
@@ -35,7 +35,7 @@ test_dataloader = torch.utils.data.DataLoader(d_test, batch_size=BATCH_SIZE, dro
 
 
 
-EXPERIMENT_NAME = 'NCF_dist_exp'
+EXPERIMENT_NAME = 'NCF_dist_exp SELU'
 DEBUG = False
 
 proxies = {
@@ -86,13 +86,16 @@ from model import NCFDistribution
 
 
 # Trial 137 finished with value: 0.9860949516296387 and parameters: 
-params = {'embedding_size': 43, 'hidden_size': 117, 'alpha': 0.30184561739442606, 'sigma_prior': 0.5280354660742225, 'distance_0_to_3': 0.845472089209157, 'distance_3_to_2': 1.0123683337747076, 'distance_2_to_1': 0.12520765022811642, 'distance_0_to_4': 0.24389896700863054, 'distance_4_to_5': 1.9232424230681977, 'p_dropout': 0.14010135653155792, 
+params = {'embedding_size': 43, 'hidden_size': 117, 'alpha': 0.30184561739442606, 
+'sigma_prior': 0.5280354660742225, 'distance_0_to_3': 0.845472089209157, 
+'distance_3_to_2': 1.0123683337747076, 'distance_2_to_1': 0.12520765022811642, 
+'distance_0_to_4': 0.24389896700863054, 'distance_4_to_5': 1.9232424230681977, 'p_dropout': 0.14010135653155792, 
 'weight_decay': 7.594599314482437e-05, 'scaling': 2.5967376547477308}
 
 model = NCFDistribution(**params)
 
 trainer = pl.Trainer(
-        max_epochs=30, 
+        max_epochs=20, 
         accelerator="gpu" if torch.cuda.is_available() else None,
         devices=1, 
         log_every_n_steps=1, 

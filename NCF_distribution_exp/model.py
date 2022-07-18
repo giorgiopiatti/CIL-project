@@ -2,7 +2,6 @@ import torch
 import torch.nn as nn 
 import pytorch_lightning as pl
 number_of_users, number_of_movies = (10000, 1000)
-import swd_optim
 
 """
 Base model
@@ -118,11 +117,7 @@ class NCFDistribution(pl.LightningModule):
         return torch.sqrt(torch.mean((yhat-y)**2))
 
     def configure_optimizers(self):
-        # if self.swa:
-        #     return torch.optim.SGD(self.parameters(), self.lr)
-        # return torch.optim.Adam(self.parameters(), self.lr, weight_decay=self.weight_decay)
-
-        return swd_optim.AdamS(self.parameters(), lr=self.lr, betas=(0.9, 0.999), eps=1e-08, weight_decay=self.weight_decay, amsgrad=False)
+        return torch.optim.Adam(self.parameters(), self.lr, weight_decay=self.weight_decay)
 
     
     def get_expected(self, pred):

@@ -1,8 +1,7 @@
 import optuna
 import joblib
 
-TIMEOUT_OPTUNA = 119*60*60 # 22h
-DIR_RESULTS = '/cluster/scratch/piattigi/CIL/res_optuna'
+DIR_RESULTS = '/cluster/scratch/ncorecco/CIL/res_optuna'
 
 
 from dask.distributed import Client
@@ -12,6 +11,8 @@ from ex_dask import create_study, DaskStorage
 trial_fn(trial: Trial, experiment_name: string, gpu_id: int)
 
 """
+
+
 def run_optuna(trial_fn, experiment_name, n_trials, n_gpus):
     # Everything should be inside client scope, otherwise we cannot access storage, 
     # since it's all dask distributed based. 
@@ -23,7 +24,11 @@ def run_optuna(trial_fn, experiment_name, n_trials, n_gpus):
         storage = DaskStorage(client=client)
         study = create_study(direction='minimize', study_name=experiment_name, storage=storage)
 
-        study.optimize(trial_fn, n_trials=n_trials, timeout=TIMEOUT_OPTUNA, client=client)
+        def save_study(study, trial):
+            joblib.dump(study, f"{DIR_RESULTS}/{experiment_name}/{experiment_name}-study.pkl")
+            print(f'[OPTUNA] study save to: {DIR_RESULTS}/{experiment_name}/{experiment_name}-study.pkl')
+    
+        study.optimize(trial_fn, n_trials=n_trials, client=client, callbacks=[save_study])
         
         joblib.dump(study, f"{DIR_RESULTS}/{experiment_name}/{experiment_name}-study.pkl")
         print("[OPTUNA]  Best score: {}".format(study.best_value))

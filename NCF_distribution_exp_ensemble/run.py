@@ -17,7 +17,6 @@ DATA_DIR = '../data'
 data_pd = pd.read_csv(DATA_DIR+'/data_train.csv')
 train_pd, val_pd = train_test_split(data_pd, train_size=0.9, random_state=RANDOM_STATE)
 
-train_pd = data_pd
 
 users_train, movies_train, ratings_train = extract_users_movies_ratings_lists(train_pd)
 d_train = TripletDataset(users_train, movies_train, ratings_train)

@@ -33,11 +33,11 @@ os.makedirs(DIR_RESULTS+EXPERIMENT_NAME)
 
 def create_trial_params(trial):
     params = {
-        "emb_size_user": 16,
-        "emb_size_movie": 16,
-        "p_dropout": 0.0,
+        "emb_size_user": trial.suggest_int('emb_size_user', 2,64),
+        "emb_size_movie": trial.suggest_int('emb_size_movie', 2,64),
+        "p_dropout": trial.suggest_float('p_dropout', 0.0, 0.5),
         "lr": trial.suggest_float('lr', 1e-5, 1e-2), 
-        "weight_decay": 1e-4
+        "weight_decay": trial.suggest_float('lr', 1e-5, 1e-2), 
     }
     return params
 
