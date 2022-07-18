@@ -5,7 +5,7 @@ from scipy.sparse import coo_matrix
 
 
 number_of_users, number_of_movies = (10000, 1000)
-DATA_DIR = '../data'
+DATA_DIR = './data'
 
 def extract_users_movies_ratings_lists(data_pd):
     """

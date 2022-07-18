@@ -9,7 +9,7 @@ from dataset import extract_users_movies_ratings_lists, TripletDataset, save_pre
 
 #Useful constants
 number_of_users, number_of_movies = (10000, 1000)
-RANDOM_STATE = 153
+RANDOM_STATE = 58
 BATCH_SIZE = 256
 DATA_DIR = '../data'
 
