@@ -37,23 +37,17 @@ def extract_matrix_users_movies_ratings(data_pd):
 
     return matrix_users_movies, user_movies_idx
 
-def save_predictions(res_path, reconstructed_matrix):
+def save_predictions_from_pandas(res_path, predictions, index_pd):
+    index_pd = index_pd.astype({'Prediction': 'float'})
+    index_pd.iloc[:, 1] = predictions
+    index_pd.to_csv(res_path, index=False, float_format='%.3f')
 
-    test_pd = pd.read_csv(DATA_DIR+'/sampleSubmission.csv')
-  
-    users, movies = \
-        [np.squeeze(arr) for arr in np.split(test_pd.Id.str.extract('r(\d+)_c(\d+)').values.astype(int) - 1, 2, axis=-1)]
-   
-    predictions = np.zeros(len(users))
 
-    for i, (user, movie) in enumerate(zip(users, movies)):
-        predictions[i] = reconstructed_matrix[user][movie]
-
+def save_predictions(res_path, predictions):
+    test_pd = pd.read_csv('../data/sampleSubmission.csv')
     test_pd = test_pd.astype({'Prediction': 'float'})
     test_pd.iloc[:, 1] = predictions
-
     test_pd.to_csv(res_path, index=False, float_format='%.3f')
-
 
 class MaskedUserDatasetTrain(torch.utils.data.Dataset):
     def __init__(self,matrix_users_movies, user_movies_idx, num_batch_samples,
