@@ -104,6 +104,6 @@ class SWAModel(pl.LightningModule):
        
         xhat = self.average_model(x)
 
-        xhat = torch.mul(xhat.transpose(0,1), self.base_model.users_std[userd_idx]) + self.base_model.users_mean[userd_idx]
+        xhat = torch.mul(xhat.transpose(0,1), self.base_model.users_std.to(device=xhat.device)[userd_idx.to(device=xhat.device)]) + self.base_model.users_mean.to(device=xhat.device)[userd_idx.to(device=xhat.device)]
         xhat = xhat.transpose(0,1)
         return xhat

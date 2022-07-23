@@ -89,3 +89,17 @@ class DatasetValidation(torch.utils.data.Dataset):
 
 
 
+
+def save_predictions_from_pandas(res_path, reconstructed_matrix, index_pd):
+    users, movies = \
+        [np.squeeze(arr) for arr in np.split(index_pd.Id.str.extract('r(\d+)_c(\d+)').values.astype(int) - 1, 2, axis=-1)]
+   
+    predictions = np.zeros(len(users))
+
+    for i, (user, movie) in enumerate(zip(users, movies)):
+        predictions[i] = reconstructed_matrix[user][movie]
+
+    index_pd = index_pd.astype({'Prediction': 'float'})
+    index_pd.iloc[:, 1] = predictions
+
+    index_pd.to_csv(res_path, index=False, float_format='%.3f')
