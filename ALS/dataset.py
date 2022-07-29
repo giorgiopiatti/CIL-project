@@ -116,6 +116,35 @@ class DatasetComplete(torch.utils.data.Dataset):
     
     def __len__(self):
         return len(self.matrix)
+    
+class TripletDataset(torch.utils.data.Dataset):
+    """
+    Dataset
+    x = (movie, user)
+    y = rating
+
+    """
+    def __init__(self, users, movies, ratings, is_test_dataset=False) -> None:
+        super().__init__()
+        self.users = users
+        self.movies = movies
+        self.ratings =ratings
+        self.is_test_dataset = is_test_dataset
+
+    
+    def __getitem__(self, index):
+        user = self.users[index]
+        movie = self.movies[index]
+        rating = self.ratings[index]
+
+        x = torch.tensor([user, movie])
+        y = torch.tensor(rating)
+        if self.is_test_dataset:
+            return x
+        return x,y
+    
+    def __len__(self):
+        return len(self.users)
 
 
 

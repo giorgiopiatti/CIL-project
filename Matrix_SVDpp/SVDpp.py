@@ -46,7 +46,7 @@ eval_data = DatasetPure.build_evalset(val)
 
 # %%
 svdpp = SVDpp(task="rating", data_info=data_info, embed_size=20,
-                n_epochs=4, lr=0.001, reg=0.5, batch_size=256)
+                n_epochs=4, lr=0.001, reg=0.01, batch_size=256)
 svdpp.fit(train_data, verbose=2, eval_data=eval_data,
             metrics=["rmse", "mae", "r2"])
 

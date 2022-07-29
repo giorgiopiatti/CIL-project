@@ -34,11 +34,11 @@ os.makedirs(DIR_RESULTS+EXPERIMENT_NAME)
 
 def create_trial_params(trial):
     params = {
-        "hidden_size": trial.suggest_int("hidden_size", 4,64),
-        "encoding_size": trial.suggest_int("encoding_size", 4,64),
+        "hidden_size": trial.suggest_int("hidden_size", 16,256),
+        "encoding_size": trial.suggest_int("encoding_size", 16,256),
         "z_p_dropout": trial.suggest_float('z_p_dropout',0.0, 1.0), 
         "lr": trial.suggest_float('lr', 1e-5, 1e-2), 
-        "num_layers": trial.suggest_int("num_layers", 2,4),
+        "num_layers": trial.suggest_int("num_layers", 2,6),
         "weight_decay": trial.suggest_float('weight_decay', 1e-5, 1e-2),
     }
     return params

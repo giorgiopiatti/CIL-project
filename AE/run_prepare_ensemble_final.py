@@ -19,7 +19,7 @@ from pytorch_lightning.callbacks import LearningRateMonitor
 DATA_DIR = '../data_val_train_kfold/'
 number_of_users, number_of_movies = (10000, 1000)
 
-DIR_RESULTS = '/cluster/scratch/piattigi/CIL/res_ensemble/'
+DIR_RESULTS = '/cluster/scratch/ncorecco/CIL/res_ensemble/'
 EXPERIMENT_NAME = 'AE_SWA'
 DEBUG = False
 

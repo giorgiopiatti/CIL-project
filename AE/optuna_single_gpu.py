@@ -2,7 +2,7 @@ import optuna
 import joblib
 
 TIMEOUT_OPTUNA = 22*60*60 # 22h
-DIR_RESULTS = '/cluster/scratch/piattigi/CIL/res_optuna'
+DIR_RESULTS = '/cluster/scratch/ncorecco/CIL/res_optuna'
 
 from optuna import create_study
 """
