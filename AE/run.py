@@ -52,7 +52,7 @@ test_dataloader = torch.utils.data.DataLoader(d_test, batch_size=BATCH_SIZE, dro
 
 
 EXPERIMENT_NAME = 'AE'
-DEBUG = True
+DEBUG = False
 
 proxies = {
 'http': 'http://proxy.ethz.ch:3128',
@@ -68,13 +68,21 @@ neptune_logger = NeptuneLogger(
     source_files='**/*.py'
 )
 
-EPOCHS = 100
+EPOCHS = 40
 from model import Model
 
+params ={
+    'hidden_size':92,
+    'encoding_size':250,
+    'z_p_dropout':0.9234988744649322,
+    'lr': 0.000623438837,
+    'num_layers':2,
+    'weight_decay':0.00049754544443277
+}
 model = Model(
     users_mean=users_mean_train,
     users_std=users_std_train,
-    lr=5e-3, weight_decay=0.0, num_layers=6, hidden_size=512, encoding_size=1024, z_p_dropout=0.8)
+    **params)
 
 trainer = pl.Trainer(
         max_epochs=EPOCHS, 
