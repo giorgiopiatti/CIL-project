@@ -15,15 +15,13 @@ class Model(pl.LightningModule):
         self.user_embedding = nn.Embedding(number_of_users, emb_size_user)
         self.movie_embedding = nn.Embedding(number_of_movies, emb_size_movie)
         
-        self.user_bias = nn.Embedding(number_of_users, 1)
-        self.movie_bias = nn.Embedding(number_of_movies, 1)
-
         self.ncf = nn.Sequential(
             nn.Linear(emb_size_user+emb_size_movie, 64),
             nn.ReLU(),
             nn.Linear(64, 16),
             nn.ReLU(),
-            nn.Linear(16, 1)
+            nn.Linear(16, 1),
+            nn.ReLU()
         )
         self.emb_size_user = emb_size_user
         self.lr = lr
@@ -37,7 +35,7 @@ class Model(pl.LightningModule):
         movies_embedding = self.movie_embedding(movies)
      
         input = torch.cat([users_embedding, movies_embedding], dim=1)
-        return self.ncf(input) + self.user_bias(users) + self.movie_bias(movies)
+        return self.ncf(input)
     
     def loss(self, yhat, y):
         """

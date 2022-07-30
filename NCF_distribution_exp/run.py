@@ -35,7 +35,7 @@ test_dataloader = torch.utils.data.DataLoader(d_test, batch_size=BATCH_SIZE, dro
 
 
 
-EXPERIMENT_NAME = 'NCF_dist_exp SELU'
+EXPERIMENT_NAME = 'NCF_dist_exp'
 DEBUG = False
 
 proxies = {
@@ -53,37 +53,6 @@ neptune_logger = NeptuneLogger(
 )
 
 from model import NCFDistribution
-
-# params =  {
-#     'embedding_size': 39, 
-#     'hidden_size': 14, 
-#     'alpha': 0.1812479548064849, 
-#     'sigma_prior': 0.2286523513862455, 
-#     'distance_0_to_3': 0.33728622361587846, 
-#     'distance_3_to_2': 0.986891143302744, 
-#     'distance_2_to_1': 0.6932965943259499, 
-#     'distance_0_to_4': 0.9201001618073893, 
-#     'distance_4_to_5': 1.4031427821242537, 
-#     'p_dropout': 0.18573958557776177, 
-#     'scaling': 2.687106607498346,
-#     'weight_decay':1e-4
-# }
-
-# params = {
-#     'embedding_size': 70, 
-#     'hidden_size': 145, 
-#     'alpha': 0.4570758995947226, 
-#     'sigma_prior': 1.3422708290654501, 
-#     'distance_0_to_3': 0.34771729273339563, 
-#     'distance_3_to_2': 1.4630057141091937, 
-#     'distance_2_to_1': 0.45889480367213265, 
-#     'distance_0_to_4': 0.15032926359839663, 
-#     'distance_4_to_5': 1.9699314328243354, 
-#     'p_dropout': 0.12664364095313085, 
-#     'weight_decay': 0.0001007917511639038, 
-#     'scaling': 4.5335761055058
-#         }
-
 
 # Trial 137 finished with value: 0.9860949516296387 and parameters: 
 params = {'embedding_size': 43, 'hidden_size': 117, 'alpha': 0.30184561739442606, 
@@ -111,3 +80,7 @@ yhat = torch.concat(predictions)
 
 save_predictions(f'{EXPERIMENT_NAME}-predictedSubmission.csv', yhat)
 neptune_logger.experiment['results/end_model'].upload(File(f'{EXPERIMENT_NAME}-predictedSubmission.csv'))
+
+import os
+os.makedirs('./model_ckpt/', exist_ok=True)
+trainer.save_checkpoint('./model_ckpt/end_training_NCF_dist_exp.ckpt')

@@ -8,3 +8,4 @@ lightning_logs/
 !AE_base_results/*.csv
 !results_ensemble/*/*.csv
 !ensemble/*/*.csv
+!Z-archive_results_ensemble

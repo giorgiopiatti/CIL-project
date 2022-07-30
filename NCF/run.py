@@ -10,7 +10,7 @@ from dataset import extract_users_movies_ratings_lists, TripletDataset, save_pre
 #Useful constants
 number_of_users, number_of_movies = (10000, 1000)
 RANDOM_STATE = 42
-BATCH_SIZE = 256
+BATCH_SIZE = 1024
 DATA_DIR = '../data'
 
 #Data source and split into val and train
@@ -38,7 +38,7 @@ test_dataloader = torch.utils.data.DataLoader(d_test, batch_size=BATCH_SIZE, dro
 
 
 EXPERIMENT_NAME = 'NCF'
-DEBUG = True
+DEBUG = False
 
 proxies = {
 'http': 'http://proxy.ethz.ch:3128',
@@ -60,7 +60,7 @@ model = Model(
     )
 
 trainer = pl.Trainer(
-        max_epochs=50, 
+        max_epochs=2, 
         accelerator="gpu" if torch.cuda.is_available() else None,
         devices=1, 
         log_every_n_steps=1, 
