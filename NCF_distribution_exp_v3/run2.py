@@ -18,7 +18,7 @@ import numpy as np
 # In[2]:
 
 
-nn = NCFDistribution.load_from_checkpoint('./lightning_logs/version_2/checkpoints/epoch=19-step=1386440.ckpt', 
+nn = NCFDistribution.load_from_checkpoint('./epoch=19-step=1386440.ckpt', 
                                         embedding_size_movie=43, 
     embedding_size_user=43,
     hidden_size = 117,
@@ -55,7 +55,6 @@ network = NCFDistribution2(
     f_theta = f_theta_nn
 )
 
-
 # In[4]:
 
 
@@ -89,7 +88,7 @@ test_dataloader = torch.utils.data.DataLoader(d_test, batch_size=BATCH_SIZE, dro
 
 
 trainer = pl.Trainer(
-        max_epochs=20, 
+        max_epochs=2, 
         accelerator="gpu" if torch.cuda.is_available() else None,
         devices=1, 
         log_every_n_steps=1, 

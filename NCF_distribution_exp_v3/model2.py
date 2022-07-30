@@ -39,7 +39,7 @@ class NCFDistribution2(pl.LightningModule):
         self.create_model(embedding_size_movie, embedding_size_user)
         
         for param in f_theta.parameters():
-            param.requires_grad = False
+            param.requires_grad = True
 
     def create_model(self,embedding_size_movie, embedding_size_user):
         self.embedding_layer_users = nn.Embedding(number_of_users, embedding_size_user)

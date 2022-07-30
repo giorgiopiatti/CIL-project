@@ -35,7 +35,7 @@ os.makedirs(DIR_RESULTS+EXPERIMENT_NAME)
 def create_trial_params(trial):
     params = {
         "hidden_size": trial.suggest_int("hidden_size", 16,256),
-        "encoding_size": trial.suggest_int("encoding_size", 16,256),
+        "encoding_size": trial.suggest_int("encoding_size", 16,512),
         "z_p_dropout": trial.suggest_float('z_p_dropout',0.0, 1.0), 
         "lr": trial.suggest_float('lr', 1e-5, 1e-2), 
         "num_layers": trial.suggest_int("num_layers", 2,6),
@@ -75,7 +75,7 @@ def trial_fn(trial):
 
     matrix_users_movies_val, _ = extract_matrix_users_movies_ratings(val_pd)
     d_val= DatasetValidation(matrix_users_movies_train, matrix_users_movies_val)
-    val_dataloader = torch.utils.data.DataLoader(d_val, batch_size=BATCH_SIZE, drop_last=False, shuffle=False)
+    val_dataloader = torch.utils.data.DataLoader(d_val, batch_size=len(d_val), drop_last=False, shuffle=False)
 
 
     d_test= DatasetComplete(matrix_users_movies_train)
@@ -143,7 +143,7 @@ if __name__ == "__main__":
 
     matrix_users_movies_val, _ = extract_matrix_users_movies_ratings(val_pd)
     d_val= DatasetValidation(matrix_users_movies_train, matrix_users_movies_val)
-    val_dataloader = torch.utils.data.DataLoader(d_val, batch_size=BATCH_SIZE, drop_last=False, shuffle=False)
+    val_dataloader = torch.utils.data.DataLoader(d_val, batch_size=len(d_val), drop_last=False, shuffle=False)
 
 
     d_test= DatasetComplete(matrix_users_movies_train)
