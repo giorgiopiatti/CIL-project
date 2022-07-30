@@ -23,7 +23,7 @@ number_of_users, number_of_movies = (10000, 1000)
 DIR_RESULTS = '/cluster/scratch/ncorecco/CIL/res_optuna/'
 EXPERIMENT_NAME = 'AE SWA manual optuna'
 EXPERIMENT_NAME+='-'+str(uuid.uuid4())[:8]
-N_OPTUNA_TRIALS = 300
+N_OPTUNA_TRIALS = 800
 DEBUG = False
 NUM_GPUS = 6
 
