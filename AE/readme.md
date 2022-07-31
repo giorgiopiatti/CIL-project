@@ -1,6 +1,6 @@
 # Autoencoder (AE)
 ### Model description
-
+The deep autoencoder model takes a user $u_i \in \mathbb{R}^{m}$ (where each entry different from zero correspond to the rating that the user gives to a specific movie) and tries to reconstruct it. The hope is that the output vector, which is a dense vector, correctly predict the unseen ratings. The model is trained with masked root mean squared error and also dense refeeding.
 
 ### Files
  - `model.py` : Autoencoder model

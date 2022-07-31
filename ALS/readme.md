@@ -1,7 +1,7 @@
 # Alternating least squares (ALS)
 
 ### Model description
-
+ALS is a classical technique used to solve the classical regularized matrix factorization problem. The model tries to find a low rank approximation for the rating matrix $Y$ by finding two matrices $U,M$ such that $Y \approx UM$. ALS, as the name suggests, approaches the problem by optimizing alternately $U$ and $M$.
 
 ### Dependencies
 LibRecommender library: https://github.com/massquantity/LibRecommender

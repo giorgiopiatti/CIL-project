@@ -1,7 +1,7 @@
 # Probabilistic Neural Collaborative Filtering - Fast Geometric Ensembling (PNCF)
 
 ### Model description
-
+This model takes the pretrained weights of a PNCF base model and applies FGE to improve the overall model's performance.
 
 ### Files
  - `model.py` : PNCF model

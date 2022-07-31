@@ -1,6 +1,7 @@
 # SVDpp
 
 ### Model description
+SVD++ is an hybrid model between a latent factor model and a neighbourhood based model. WE then constructed an ensemble of SVD++ by varying the embedding size. We then aggregate the different prediction using a Gaussian learned with Bayesian optimization.
 
 ### Dependencies
 LibRecommender library: https://github.com/massquantity/LibRecommender

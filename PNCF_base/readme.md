@@ -1,7 +1,7 @@
 # Probabilistic Neural Collaborative Filtering (PNCF base model)
 
 ### Model description
-
+The Probabilistic Neural Collaborative Filtering is an adapted verision of the classical NCF, it tries to learn the users and movies embedding, but instead of learning hoe to combine them, tries to model a unimodal distribution for the five classes. The model is than trained with NLL combined with a normalization term.
 
 ### Files
  - `model.py` : PNCF model
