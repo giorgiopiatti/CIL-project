@@ -9,3 +9,4 @@ lightning_logs/
 !results_ensemble/*/*.csv
 !ensemble/*/*.csv
 !Z-archive_results_ensemble
+!paper_generate_graphs/data/*.csv
