@@ -135,7 +135,7 @@ if __name__ == "__main__":
     }
     neptune_logger = NeptuneLogger(
         project="TiCinesi/CIL-project", 
-        api_key='eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiJmMzQyZmQ3MS02OGM5LTQ2Y2EtOTEzNC03MjBjMzUyN2UzNDMifQ==',
+        
         mode = 'debug' if DEBUG else 'async',
         name=EXPERIMENT_NAME,
         tags=[],  # optional
