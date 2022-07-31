@@ -42,7 +42,7 @@ def create_trial_params(trial):
         "distance_3_to_2" : trial.suggest_float('distance_3_to_2', 1e-1, 1.5),
         "distance_2_to_1" : trial.suggest_float('distance_2_to_1', 1e-1, 1.5),
         "distance_0_to_4" : trial.suggest_float('distance_0_to_4', 1e-1, 1.5),
-        "distance_4_to_5" : trial.suggest_float('distance_4_to_5', 1e-1, 2.0),
+        "distance_4_to_5" : trial.suggest_float('distance_4_to_5', 1e-1, 3.0),
         "p_dropout":trial.suggest_float('p_dropout', 0.1,0.5),
         "weight_decay": trial.suggest_float('weight_decay', 0.0, 1e-2)
     }
