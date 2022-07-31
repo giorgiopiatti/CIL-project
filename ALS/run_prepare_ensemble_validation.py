@@ -22,19 +22,20 @@ import sys
 i = int(sys.argv[1])
 
 def eval_ensemble(split, train_data, data_info, users_val, movies_val, ratings_val, users_test, movies_test):
-    emb_sizes = [1,2,3,4,5,6,8,10,12,15]
-    regs = [0.01, 0.05, 0.1, 0.2, 0.3, 0.5, 1]
-    
-    david_val = np.zeros((len(emb_sizes) * len(regs), len(users_val)))
-    david_test = np.zeros((len(emb_sizes) * len(regs), len(users_test)))
+    emb_sizes = [2,3,4,5,6,7,8,9,10,11,16,32,58]
+    regs = [0.1, 0.5, 1, 5, 10]
+    alphas = [0.01, 0.1, 1, 5, 8, 10, 100]
+    david_val = np.zeros((len(emb_sizes) * len(regs) * len(alphas), len(users_val)))
+    david_test = np.zeros((len(emb_sizes) * len(regs) * len(alphas), len(users_test)))
 
     for i, emb_size in enumerate(emb_sizes):
         for j, reg in enumerate(regs):
-            giorgio = ALS(task="rating", data_info=data_info, embed_size=emb_size, n_epochs=5,
-                        reg=reg, seed=42)
-            giorgio.fit(train_data, verbose=0, use_cg=False, n_threads=8, metrics=["rmse", "mae", "r2"])
-            david_val[len(regs)*i+j] = np.array(giorgio.predict(user=users_val, item=movies_val))
-            david_test[len(regs)*i+j] = np.array(giorgio.predict(user=users_test, item=movies_test))
+            for k, alpha in enumerate(alphas):
+                giorgio = ALS(task="rating", data_info=data_info, embed_size=emb_size, n_epochs=5,
+                            reg=reg, alpha=alpha, seed=42)
+                giorgio.fit(train_data, verbose=0, use_cg=False, n_threads=8, metrics=["rmse", "mae", "r2"])
+                david_val[len(regs)*len(alphas)*i+len(alphas)*j+k] = np.array(giorgio.predict(user=users_val, item=movies_val))
+                david_test[len(regs)*len(alphas)*i+len(alphas)*j+k] = np.array(giorgio.predict(user=users_test, item=movies_test))
 
     yhat_val = david_val.mean(axis=0)
     yhat_test = david_test.mean(axis=0)
