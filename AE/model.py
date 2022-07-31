@@ -1,8 +1,7 @@
-from transformers.optimization import Adafactor, get_cosine_schedule_with_warmup
-from turtle import forward
+import pytorch_lightning as pl
 import torch
 import torch.nn as nn
-import pytorch_lightning as pl
+
 number_of_users, number_of_movies = (10000, 1000)
 
 
@@ -101,14 +100,14 @@ class Model(pl.LightningModule):
         x, y, userd_idx = batch
 
         xhat = self(x)
-        
+
         self.users_std = self.users_std.to(device=xhat.device)
         self.users_mean = self.users_mean.to(device=xhat.device)
 
-        a = torch.mul(xhat.transpose(0,1),self.users_std[userd_idx])
+        a = torch.mul(xhat.transpose(0, 1), self.users_std[userd_idx])
 
         xhat = a + self.users_mean[userd_idx]
-        xhat = xhat.transpose(0,1)
+        xhat = xhat.transpose(0, 1)
         movie_mask = y.type(torch.bool)
         loss = self.loss_masked(y, xhat, movie_mask)
         rmse = self.rmse_metric(y, xhat, movie_mask)
@@ -117,11 +116,12 @@ class Model(pl.LightningModule):
 
     def predict_step(self, batch, batch_idx):
         x, userd_idx = batch
-       
+
         xhat = self(x)
 
         self.users_std = self.users_std.to(device=xhat.device)
         self.users_mean = self.users_mean.to(device=xhat.device)
-        xhat = torch.mul(xhat.transpose(0,1), self.users_std[userd_idx]) + self.users_mean[userd_idx]
-        xhat = xhat.transpose(0,1)
+        xhat = torch.mul(xhat.transpose(
+            0, 1), self.users_std[userd_idx]) + self.users_mean[userd_idx]
+        xhat = xhat.transpose(0, 1)
         return xhat
