@@ -24,7 +24,7 @@ DATA_DIR = '../data'
 MAX_EPOCHS = 40
 
 DIR_RESULTS = '/cluster/scratch/ncorecco/CIL/res_optuna/'
-EXPERIMENT_NAME = 'AE'
+EXPERIMENT_NAME = 'AE_base'
 EXPERIMENT_NAME += '-'+str(uuid.uuid4())[:8]
 N_OPTUNA_TRIALS = 150
 DEBUG = False

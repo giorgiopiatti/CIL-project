@@ -20,7 +20,7 @@ DATA_DIR = '../data_val_train_kfold/'
 number_of_users, number_of_movies = (10000, 1000)
 
 DIR_RESULTS = '/cluster/scratch/ncorecco/CIL/res_ensemble/'
-EXPERIMENT_NAME = 'AE_SWA_large'
+EXPERIMENT_NAME = 'AE'
 DEBUG = False
 
 NUM_WORKERS_LOADER = 4

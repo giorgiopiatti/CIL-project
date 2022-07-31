@@ -21,7 +21,7 @@ DATA_DIR = '../data'
 number_of_users, number_of_movies = (10000, 1000)
 
 DIR_RESULTS = '/cluster/scratch/ncorecco/CIL/res_neptune/'
-EXPERIMENT_NAME = 'AE_SWA'
+EXPERIMENT_NAME = 'AE'
 DEBUG = True
 
 os.makedirs(DIR_RESULTS+EXPERIMENT_NAME, exist_ok=True)

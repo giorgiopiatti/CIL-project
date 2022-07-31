@@ -1,3 +1,4 @@
+from model import Model
 import pytorch_lightning as pl
 import torch
 import pandas as pd
@@ -7,14 +8,14 @@ from sklearn.model_selection import train_test_split
 import numpy as np
 from dataset import extract_matrix_users_movies_ratings, DatasetComplete, DatasetValidation, save_predictions
 
-#Useful constants
+# Useful constants
 number_of_users, number_of_movies = (10000, 1000)
 RANDOM_STATE = 58
 BATCH_SIZE = 256
 DATA_DIR = '../data'
 
 
-#Data source and split into val and train
+# Data source and split into val and train
 data_pd = pd.read_csv(DATA_DIR+'/data_train.csv')
 train_pd, val_pd = train_test_split(data_pd, train_size=0.9, random_state=RANDOM_STATE)
 
@@ -27,8 +28,8 @@ for i in range(number_of_users):
     user = matrix_users_movies_train[i]
     mean = user[user != 0].mean()
     std = user[user != 0].std()
-    
-    centered_user = np.where(user==0, user, (user-mean)/std)
+
+    centered_user = np.where(user == 0, user, (user-mean)/std)
     users_centered.append(centered_user)
     users_mean.append(mean)
     users_std.append(std)
@@ -39,29 +40,31 @@ users_mean_train = np.stack(users_mean)
 users_std_train = np.stack(users_std)
 
 d_train = DatasetComplete(matrix_users_movies_train)
-train_dataloader = torch.utils.data.DataLoader(d_train, batch_size=BATCH_SIZE, drop_last=True, shuffle=True)
+train_dataloader = torch.utils.data.DataLoader(
+    d_train, batch_size=BATCH_SIZE, drop_last=True, shuffle=True)
 
 matrix_users_movies_val, _ = extract_matrix_users_movies_ratings(val_pd)
-d_val= DatasetValidation(matrix_users_movies_train, matrix_users_movies_val)
-val_dataloader = torch.utils.data.DataLoader(d_val, batch_size=BATCH_SIZE, drop_last=False, shuffle=False)
+d_val = DatasetValidation(matrix_users_movies_train, matrix_users_movies_val)
+val_dataloader = torch.utils.data.DataLoader(
+    d_val, batch_size=BATCH_SIZE, drop_last=False, shuffle=False)
 
 
-d_test= DatasetComplete(matrix_users_movies_train)
-test_dataloader = torch.utils.data.DataLoader(d_test, batch_size=BATCH_SIZE, drop_last=False, shuffle=False)
+d_test = DatasetComplete(matrix_users_movies_train)
+test_dataloader = torch.utils.data.DataLoader(
+    d_test, batch_size=BATCH_SIZE, drop_last=False, shuffle=False)
 
 
-
-EXPERIMENT_NAME = 'AE'
+EXPERIMENT_NAME = 'AE_base'
 DEBUG = False
 
 proxies = {
-'http': 'http://proxy.ethz.ch:3128',
-'https': 'http://proxy.ethz.ch:3128',
+    'http': 'http://proxy.ethz.ch:3128',
+    'https': 'http://proxy.ethz.ch:3128',
 }
 neptune_logger = NeptuneLogger(
-    project="TiCinesi/CIL-project", 
+    project="TiCinesi/CIL-project",
     api_key='eyJhcGlfYWRkcmVzcyI6Imh0dHBzOi8vYXBwLm5lcHR1bmUuYWkiLCJhcGlfdXJsIjoiaHR0cHM6Ly9hcHAubmVwdHVuZS5haSIsImFwaV9rZXkiOiJmMzQyZmQ3MS02OGM5LTQ2Y2EtOTEzNC03MjBjMzUyN2UzNDMifQ==',
-    mode = 'debug' if DEBUG else 'async',
+    mode='debug' if DEBUG else 'async',
     name=EXPERIMENT_NAME,
     tags=[],  # optional
     proxies=proxies,
@@ -69,15 +72,14 @@ neptune_logger = NeptuneLogger(
 )
 
 EPOCHS = 40
-from model import Model
 
-params ={
-    'hidden_size':92,
-    'encoding_size':250,
-    'z_p_dropout':0.9234988744649322,
+params = {
+    'hidden_size': 92,
+    'encoding_size': 250,
+    'z_p_dropout': 0.9234988744649322,
     'lr': 0.000623438837,
-    'num_layers':2,
-    'weight_decay':0.00049754544443277
+    'num_layers': 2,
+    'weight_decay': 0.00049754544443277
 }
 model = Model(
     users_mean=users_mean_train,
@@ -85,16 +87,17 @@ model = Model(
     **params)
 
 trainer = pl.Trainer(
-        max_epochs=EPOCHS, 
-        accelerator="gpu" if torch.cuda.is_available() else None,
-        devices=1, 
-        log_every_n_steps=1, 
-        detect_anomaly=True, 
-        track_grad_norm=2,
-        logger=neptune_logger,
-        )
+    max_epochs=EPOCHS,
+    accelerator="gpu" if torch.cuda.is_available() else None,
+    devices=1,
+    log_every_n_steps=1,
+    detect_anomaly=True,
+    track_grad_norm=2,
+    logger=neptune_logger,
+)
 trainer.fit(model, train_dataloaders=train_dataloader, val_dataloaders=val_dataloader)
 
 predictions = trainer.predict(model, dataloaders=test_dataloader)
 save_predictions(f'{EXPERIMENT_NAME}-predictedSubmission.csv', predictions[0].cpu().numpy())
-neptune_logger.experiment['results/end_model'].upload(File(f'{EXPERIMENT_NAME}-predictedSubmission.csv'))
+neptune_logger.experiment['results/end_model'].upload(
+    File(f'{EXPERIMENT_NAME}-predictedSubmission.csv'))
