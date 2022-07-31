@@ -30,7 +30,7 @@ EXPERIMENT_NAME = 'PNCF_base'
 EXPERIMENT_NAME += '-'+str(uuid.uuid4())[:8]
 N_OPTUNA_TRIALS = 250
 NUM_WORKERS_LOADER = 4
-DEBUG = False
+NEPTUNE_LOG_OFFLINE = True
 NUM_GPUS = 1
 
 os.makedirs(DIR_RESULTS+EXPERIMENT_NAME)
@@ -131,7 +131,7 @@ if __name__ == "__main__":
     neptune_logger = NeptuneLogger(
         project="TiCinesi/CIL-project",
         
-        mode='debug' if DEBUG else 'async',
+        mode='debug' if NEPTUNE_LOG_OFFLINE else 'async',
         name=EXPERIMENT_NAME,
         tags=[],  # optional
         proxies=proxies,

@@ -25,7 +25,7 @@ load_dotenv()
 BASE_DIR_RESULTS = os.getenv('BASE_DIR_RESULTS')
 DIR_RESULTS=BASE_DIR_RESULTS+'res_ensemble/'
 EXPERIMENT_NAME = 'AE'
-DEBUG = False
+NEPTUNE_LOG_OFFLINE = True
 
 NUM_WORKERS_LOADER = 4
 
@@ -113,7 +113,7 @@ proxies = {
 neptune_logger = NeptuneLogger(
     project="TiCinesi/CIL-project",
     
-    mode='debug' if DEBUG else 'async',
+    mode='debug' if NEPTUNE_LOG_OFFLINE else 'async',
     name=EXPERIMENT_NAME,
     tags=[],  # optional
     proxies=proxies,

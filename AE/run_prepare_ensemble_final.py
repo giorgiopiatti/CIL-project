@@ -23,7 +23,7 @@ load_dotenv()
 BASE_DIR_RESULTS = os.getenv('BASE_DIR_RESULTS')
 DIR_RESULTS=BASE_DIR_RESULTS+'res_ensemble/'
 EXPERIMENT_NAME = 'AE'
-DEBUG = False
+NEPTUNE_LOG_OFFLINE = True
 print(DIR_RESULTS)
 
 os.makedirs(DIR_RESULTS+EXPERIMENT_NAME, exist_ok=True)
@@ -97,7 +97,7 @@ proxies = {
 neptune_logger = NeptuneLogger(
     project="TiCinesi/CIL-project",
     
-    mode='debug' if DEBUG else 'async',
+    mode='debug' if NEPTUNE_LOG_OFFLINE else 'async',
     name=EXPERIMENT_NAME,
     tags=[],  # optional
     proxies=proxies,
@@ -117,7 +117,7 @@ trainer = pl.Trainer(
     log_every_n_steps=1,
     detect_anomaly=True,
     track_grad_norm=2,
-    enable_progress_bar=False,
+    enable_progress_bar=True,
     callbacks=[],
     logger=neptune_logger,
     default_root_dir=DIR_RESULTS,

@@ -55,7 +55,7 @@ test_dataloader = torch.utils.data.DataLoader(
 
 
 EXPERIMENT_NAME = 'AE_base'
-DEBUG = False
+NEPTUNE_LOG_OFFLINE = True
 
 proxies = {
     'http': 'http://proxy.ethz.ch:3128',
@@ -64,7 +64,7 @@ proxies = {
 neptune_logger = NeptuneLogger(
     project="TiCinesi/CIL-project",
     
-    mode='debug' if DEBUG else 'async',
+    mode='debug' if NEPTUNE_LOG_OFFLINE else 'async',
     name=EXPERIMENT_NAME,
     tags=[],  # optional
     proxies=proxies,
