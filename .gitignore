@@ -9,5 +9,5 @@ lightning_logs/
 !AE_base_results/*.csv
 !results_ensemble/*/*.csv
 !ensemble/*/*.csv
-!Z-archive_results_ensemble
+!Z-archive_results_ensemble/*/*.csv
 !paper_generate_graphs/data/*.csv
