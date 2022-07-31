@@ -37,6 +37,7 @@ train_data, data_info = DatasetPure.build_trainset(train)
 
 start = 4
 end = 40
+#Best epochs are found via SVDpp_ensemble_optimal_epochs.py
 best_epochs = [2, 2, 2, 2, 2, 5, 2, 5, 4, 4, 4, 4, 4, 4, 3, 3, 3, 2, 3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2]
 
 best_params = {'mu': 39.9977395382687, 'sigma': 19.297573748183872}
