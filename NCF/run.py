@@ -46,7 +46,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 BASE_DIR_RESULTS = os.getenv('BASE_DIR_RESULTS')
-DIR_RESULTS=BASE_DIR_RESULTS+'res_baseline/'
+DIR_RESULTS=BASE_DIR_RESULTS+'results_baseline/'
 
 os.makedirs(DIR_RESULTS+EXPERIMENT_NAME, exist_ok=True)
 NEPTUNE_LOG_OFFLINE = True

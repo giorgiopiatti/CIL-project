@@ -21,7 +21,7 @@ import os
 from dotenv import load_dotenv
 load_dotenv()
 BASE_DIR_RESULTS = os.getenv('BASE_DIR_RESULTS')
-DIR_RESULTS=BASE_DIR_RESULTS+'res_ensemble/'
+DIR_RESULTS=BASE_DIR_RESULTS+'results_ensemble/'
 EXPERIMENT_NAME = 'AE'
 NEPTUNE_LOG_OFFLINE = True
 print(DIR_RESULTS)
