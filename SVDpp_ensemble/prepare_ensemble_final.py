@@ -14,7 +14,7 @@ from dataset import (extract_users_movies_ratings_lists,
 number_of_users, number_of_movies = (10000, 1000)
 DATA_DIR = '../data'
 
-EXPERIMENT_NAME = 'SVDpp_ensemble_gaussian'
+EXPERIMENT_NAME = 'SVDpp_ensemble'
 
 DIR_RESULTS = '/cluster/scratch/piattigi/CIL/res_ensemble/'
 
