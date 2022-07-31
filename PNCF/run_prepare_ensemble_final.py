@@ -2,7 +2,6 @@ from swa_model import SWAModel
 import math
 from model import NCFDistribution
 import os
-import sys
 import pandas as pd
 import pytorch_lightning as pl
 import torch
@@ -13,41 +12,29 @@ from pytorch_lightning.loggers import NeptuneLogger
 from dataset import (TripletDataset, extract_users_movies_ratings_lists,
                      save_predictions_from_pandas)
 
-k = int(sys.argv[1])
-
-
 # Useful constants
 number_of_users, number_of_movies = (10000, 1000)
+RANDOM_STATE = 153
 BATCH_SIZE = 256
-DATA_DIR = '../data_val_train_kfold/'
+DATA_DIR = '../data'
 
 # Data source and split into val and train
-train_pd = pd.read_csv(DATA_DIR+f'partition_{k}_train.csv')
-val_pd = pd.read_csv(DATA_DIR+f'partition_{k}_val.csv')
+data_pd = pd.read_csv(DATA_DIR+'/data_train.csv')
 
-users_train, movies_train, ratings_train = extract_users_movies_ratings_lists(train_pd)
+users_train, movies_train, ratings_train = extract_users_movies_ratings_lists(data_pd)
 d_train = TripletDataset(users_train, movies_train, ratings_train)
 train_dataloader = torch.utils.data.DataLoader(
     d_train, batch_size=BATCH_SIZE, drop_last=True, shuffle=True)
 
-users_val, movies_val, ratings_val = extract_users_movies_ratings_lists(val_pd)
-d_val = TripletDataset(users_val, movies_val, ratings_val)
-val_dataloader = torch.utils.data.DataLoader(
-    d_val, batch_size=BATCH_SIZE, drop_last=False, shuffle=False)
 
-d_val_predict = TripletDataset(users_val, movies_val, ratings_val, is_test_dataset=True)
-val_predict_dataloader = torch.utils.data.DataLoader(
-    d_val_predict, batch_size=BATCH_SIZE, drop_last=False, shuffle=False)
-
-
-test_pd = pd.read_csv('../data/sampleSubmission.csv')
+test_pd = pd.read_csv(DATA_DIR+'/sampleSubmission.csv')
 users_test, movies_test, ratings_test = extract_users_movies_ratings_lists(test_pd)
 d_test = TripletDataset(users_test, movies_test, ratings_test, is_test_dataset=True)
 test_dataloader = torch.utils.data.DataLoader(
     d_test, batch_size=BATCH_SIZE, drop_last=False, shuffle=False)
 
 
-EXPERIMENT_NAME = 'NCF_dist_exp_SWA'
+EXPERIMENT_NAME = 'PNCF'
 DIR_RESULTS = '/cluster/scratch/piattigi/CIL/res_ensemble/'
 
 os.makedirs(DIR_RESULTS+EXPERIMENT_NAME, exist_ok=True)
@@ -82,7 +69,7 @@ params = {'embedding_size': 43,
           'scaling': 2.5967376547477308}
 
 model = NCFDistribution.load_from_checkpoint(
-    f'{DIR_RESULTS}/PNCF_base/PNCF_base_split_{k}_weights.ckpt', **params)
+    f'{DIR_RESULTS}/PNCF_base/PNCF_base_final_weights.ckpt', **params)
 
 params_opt = {
     'lr_low': 5e-4,
@@ -108,23 +95,16 @@ trainer = pl.Trainer(
     callbacks=[
         LearningRateMonitor(logging_interval='step')]
 )
-trainer.fit(model, train_dataloaders=train_dataloader, val_dataloaders=val_dataloader)
-trainer.save_checkpoint(f'{DIR_RESULTS}/{EXPERIMENT_NAME}/{EXPERIMENT_NAME}_split_{k}_weights.ckpt')
+trainer.fit(model, train_dataloaders=train_dataloader)
+trainer.save_checkpoint(f'{DIR_RESULTS}/{EXPERIMENT_NAME}/{EXPERIMENT_NAME}_final_weights.ckpt')
 
 predictions = trainer.predict(model, dataloaders=test_dataloader)
+
 yhat = torch.concat(predictions)
+
 save_predictions_from_pandas(
-    f'{DIR_RESULTS}/{EXPERIMENT_NAME}/{EXPERIMENT_NAME}_split_{k}_test_results.csv', yhat, test_pd)
-
-predictions = trainer.predict(model, dataloaders=val_predict_dataloader)
-yhat = torch.concat(predictions)
-save_predictions_from_pandas(
-    f'{DIR_RESULTS}/{EXPERIMENT_NAME}/{EXPERIMENT_NAME}_split_{k}_val_results.csv', yhat, val_pd)
-
-
-neptune_logger.experiment[f'ensemble/{EXPERIMENT_NAME}_split_{k}_test_results'].upload(
-    File(f'{DIR_RESULTS}/{EXPERIMENT_NAME}/{EXPERIMENT_NAME}_split_{k}_test_results.csv'))
-neptune_logger.experiment[f'ensemble/{EXPERIMENT_NAME}_split_{k}_val_results'].upload(
-    File(f'{DIR_RESULTS}/{EXPERIMENT_NAME}/{EXPERIMENT_NAME}_split_{k}_val_results.csv'))
-neptune_logger.experiment[f'ensemble/{EXPERIMENT_NAME}_split_{k}_weights'].upload(
-    File(f'{DIR_RESULTS}/{EXPERIMENT_NAME}/{EXPERIMENT_NAME}_split_{k}_weights.ckpt'))
+    f'{DIR_RESULTS}/{EXPERIMENT_NAME}/{EXPERIMENT_NAME}_final_results.csv', yhat, test_pd)
+neptune_logger.experiment[f'ensemble/final_results'].upload(
+    File(f'{DIR_RESULTS}/{EXPERIMENT_NAME}/{EXPERIMENT_NAME}_final_results.csv'))
+neptune_logger.experiment[f'ensemble/final_weights'].upload(
+    File(f'{DIR_RESULTS}/{EXPERIMENT_NAME}/{EXPERIMENT_NAME}_final_weights.ckpt'))
