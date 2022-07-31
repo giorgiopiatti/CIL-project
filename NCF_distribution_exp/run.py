@@ -83,4 +83,4 @@ neptune_logger.experiment['results/end_model'].upload(File(f'{EXPERIMENT_NAME}-p
 
 import os
 os.makedirs('./model_ckpt/', exist_ok=True)
-trainer.save_checkpoint('./model_ckpt/end_training_NCF_dist_exp.ckpt')
+trainer.save_checkpoint('../model_ckpt/end_training_NCF_dist_exp.ckpt')

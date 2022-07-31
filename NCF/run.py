@@ -60,7 +60,7 @@ model = Model(
     )
 
 trainer = pl.Trainer(
-        max_epochs=2, 
+        max_epochs=20, 
         accelerator="gpu" if torch.cuda.is_available() else None,
         devices=1, 
         log_every_n_steps=1, 

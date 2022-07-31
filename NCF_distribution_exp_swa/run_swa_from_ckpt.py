@@ -60,7 +60,7 @@ from swa_model import SWAModel
 params = {'embedding_size': 43, 'hidden_size': 117, 'alpha': 0.30184561739442606, 'sigma_prior': 0.5280354660742225, 'distance_0_to_3': 0.845472089209157, 'distance_3_to_2': 1.0123683337747076, 'distance_2_to_1': 0.12520765022811642, 'distance_0_to_4': 0.24389896700863054, 'distance_4_to_5': 1.9232424230681977, 'p_dropout': 0.14010135653155792, 
 'weight_decay': 7.594599314482437e-05, 'scaling': 2.5967376547477308}
 
-model = NCFDistribution.load_from_checkpoint('./model_ckpt/end_training_NCF_dist_exp.ckpt', **params)
+model = NCFDistribution.load_from_checkpoint('../model_ckpt/end_training_NCF_dist_exp.ckpt', **params)
 
 
 params_opt = {
