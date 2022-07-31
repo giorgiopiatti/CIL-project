@@ -34,7 +34,7 @@ class Model(pl.LightningModule):
         movies_embedding = self.movie_embedding(movies)
 
         input = torch.cat([users_embedding, movies_embedding], dim=1)
-        return self.ncf(input)
+        return self.ncf(input).squeeze()
 
     def loss(self, yhat, y):
         """
