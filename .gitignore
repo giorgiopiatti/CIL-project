@@ -1,5 +1,6 @@
 __pycache__
 .neptune
+#.ipynb_checkpoints
 lightning_logs/
 *csv
 !data_val_train_kfold/*.csv
