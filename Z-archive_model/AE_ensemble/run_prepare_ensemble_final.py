@@ -19,7 +19,11 @@ encoding_size = int(sys.argv[1])
 DATA_DIR = '../data_val_train_kfold/'
 number_of_users, number_of_movies = (10000, 1000)
 
-DIR_RESULTS = '/cluster/scratch/piattigi/CIL/res_sub_ensemble/'
+import os
+from dotenv import load_dotenv
+load_dotenv()
+BASE_DIR_RESULTS = os.getenv('BASE_DIR_RESULTS')
+DIR_RESULTS=BASE_DIR_RESULTS+'res_sub_ensemble/'
 EXPERIMENT_NAME = f'AE_SWA_ensemble_base_{encoding_size}'
 DEBUG = False
 

@@ -12,7 +12,11 @@ EXPERIMENT_NAME = 'SVDpp_ensemble_gaussian predict all'
 import uuid
 EXPERIMENT_NAME+='-'+str(uuid.uuid4())[:8]
 N_TRIALS = 5000
-DIR_RESULTS = '/cluster/scratch/piattigi/CIL/res_optuna/'
+import os
+from dotenv import load_dotenv
+load_dotenv()
+BASE_DIR_RESULTS = os.getenv('BASE_DIR_RESULTS')
+DIR_RESULTS=BASE_DIR_RESULTS+'res_optuna/'
 import os
 os.makedirs(DIR_RESULTS+EXPERIMENT_NAME)
 

@@ -23,7 +23,11 @@ number_of_users, number_of_movies = (10000, 1000)
 import sys
 encoding_size = int(sys.argv[1])
 
-DIR_RESULTS = '/cluster/scratch/piattigi/CIL/res_optuna/'
+import os
+from dotenv import load_dotenv
+load_dotenv()
+BASE_DIR_RESULTS = os.getenv('BASE_DIR_RESULTS')
+DIR_RESULTS=BASE_DIR_RESULTS+'res_optuna/'
 EXPERIMENT_NAME = f'AE_SWA_base_{encoding_size}'
 DEBUG = False
 

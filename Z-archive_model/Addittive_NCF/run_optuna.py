@@ -21,7 +21,11 @@ DATA_DIR = '../data'
 
 
 MAX_EPOCHS = 20
-DIR_RESULTS = '/cluster/scratch/piattigi/CIL/res_optuna/'
+import os
+from dotenv import load_dotenv
+load_dotenv()
+BASE_DIR_RESULTS = os.getenv('BASE_DIR_RESULTS')
+DIR_RESULTS=BASE_DIR_RESULTS+'res_optuna/'
 EXPERIMENT_NAME = 'Additive NCF '
 EXPERIMENT_NAME+='-'+str(uuid.uuid4())[:8]
 N_OPTUNA_TRIALS = 60

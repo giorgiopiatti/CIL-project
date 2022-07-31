@@ -6,7 +6,11 @@ from libreco.data import DatasetPure
 
 from dataset import extract_users_movies_ratings_lists, save_predictions
 
-DIR_RESULTS = '/cluster/scratch/piattigi/CIL/res_baseline/'
+import os
+from dotenv import load_dotenv
+load_dotenv()
+BASE_DIR_RESULTS = os.getenv('BASE_DIR_RESULTS')
+DIR_RESULTS = BASE_DIR_RESULTS+'res_baseline/'
 EXPERIMENT_NAME = 'ALS'
 
 os.makedirs(DIR_RESULTS+EXPERIMENT_NAME, exist_ok=True)

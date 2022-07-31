@@ -20,7 +20,11 @@ RANDOM_STATE = 42
 DATA_DIR = '../data'
 number_of_users, number_of_movies = (10000, 1000)
 
-DIR_RESULTS = '/cluster/scratch/ncorecco/CIL/res_neptune/'
+import os
+from dotenv import load_dotenv
+load_dotenv()
+BASE_DIR_RESULTS = os.getenv('BASE_DIR_RESULTS')
+DIR_RESULTS=BASE_DIR_RESULTS+'res_neptune/'
 EXPERIMENT_NAME = 'AE'
 DEBUG = True
 

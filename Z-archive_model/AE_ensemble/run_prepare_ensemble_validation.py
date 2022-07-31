@@ -22,7 +22,11 @@ import sys
 encoding_size = int(sys.argv[1])
 k = int(sys.argv[2])
 
-DIR_RESULTS = '/cluster/scratch/piattigi/CIL/res_sub_ensemble/'
+import os
+from dotenv import load_dotenv
+load_dotenv()
+BASE_DIR_RESULTS = os.getenv('BASE_DIR_RESULTS')
+DIR_RESULTS=BASE_DIR_RESULTS+'res_sub_ensemble/'
 EXPERIMENT_NAME = f'AE_SWA_ensemble/base_{encoding_size}'
 DEBUG = False
 

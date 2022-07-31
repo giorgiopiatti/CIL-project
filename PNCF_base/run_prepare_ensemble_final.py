@@ -32,7 +32,11 @@ test_dataloader = torch.utils.data.DataLoader(
 
 
 EXPERIMENT_NAME = 'PNCF_base'
-DIR_RESULTS = '/cluster/scratch/piattigi/CIL/res_ensemble/'
+import os
+from dotenv import load_dotenv
+load_dotenv()
+BASE_DIR_RESULTS = os.getenv('BASE_DIR_RESULTS')
+DIR_RESULTS=BASE_DIR_RESULTS+'res_ensemble/'
 
 os.makedirs(DIR_RESULTS+EXPERIMENT_NAME, exist_ok=True)
 DEBUG = False

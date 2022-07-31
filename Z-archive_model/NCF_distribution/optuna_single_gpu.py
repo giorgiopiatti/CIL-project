@@ -2,7 +2,11 @@ import optuna
 import joblib
 
 TIMEOUT_OPTUNA = 22*60*60 # 22h
-DIR_RESULTS = '/cluster/scratch/piattigi/CIL/res_optuna'
+import os
+from dotenv import load_dotenv
+load_dotenv()
+BASE_DIR_RESULTS = os.getenv('BASE_DIR_RESULTS')
+DIR_RESULTS=BASE_DIR_RESULTS+'res_optuna'
 
 from optuna import create_study
 """
