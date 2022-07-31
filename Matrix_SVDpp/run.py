@@ -1,11 +1,15 @@
-# %%
-import pandas as pd
-from sklearn.model_selection import train_test_split
-import numpy as np
-from dataset import extract_users_movies_ratings_lists, TripletDataset, save_predictions
-import torch 
+import os
 
-#Useful constants
+import pandas as pd
+import tensorflow as tf
+from libreco.algorithms import SVDpp
+from libreco.data import DatasetPure
+from sklearn.model_selection import train_test_split
+
+from dataset import (extract_users_movies_ratings_lists,
+                     save_predictions)
+
+# Useful constants
 number_of_users, number_of_movies = (10000, 1000)
 RANDOM_STATE = 58
 DATA_DIR = '../data'
@@ -14,17 +18,7 @@ data_pd = pd.read_csv(DATA_DIR+'/data_train.csv')
 train_pd, val_pd = train_test_split(data_pd, train_size=0.9, random_state=RANDOM_STATE)
 
 
-
-
-# %%
-import time
-import pandas as pd
-from libreco.data import split_by_ratio_chrono, DatasetPure
-from libreco.algorithms import SVD, SVDpp, NCF, ALS, UserCF, ItemCF, RNN4Rec
-
 # remove unnecessary tensorflow logging
-import os
-import tensorflow as tf
 os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 os.environ["KMP_WARNINGS"] = "FALSE"
 tf.compat.v1.logging.set_verbosity(tf.compat.v1.logging.ERROR)
@@ -46,9 +40,9 @@ eval_data = DatasetPure.build_evalset(val)
 
 # %%
 svdpp = SVDpp(task="rating", data_info=data_info, embed_size=20,
-                n_epochs=4, lr=0.001, reg=0.01, batch_size=256)
+              n_epochs=4, lr=0.001, reg=0.01, batch_size=256)
 svdpp.fit(train_data, verbose=2, eval_data=eval_data,
-            metrics=["rmse", "mae", "r2"])
+          metrics=["rmse", "mae", "r2"])
 
 
 yhat = svdpp.predict(user=users_test, item=movies_test)
