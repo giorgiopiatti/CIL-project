@@ -40,7 +40,7 @@ test_dataloader = torch.utils.data.DataLoader(
     d_test, batch_size=BATCH_SIZE, drop_last=False, shuffle=False)
 
 
-EXPERIMENT_NAME = 'NCF_dist_exp'
+EXPERIMENT_NAME = 'PNCF_base'
 DEBUG = False
 
 proxies = {

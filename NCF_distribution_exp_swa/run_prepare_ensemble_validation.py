@@ -82,7 +82,7 @@ params = {'embedding_size': 43,
           'scaling': 2.5967376547477308}
 
 model = NCFDistribution.load_from_checkpoint(
-    f'{DIR_RESULTS}/NCF_dist_exp/NCF_dist_exp_split_{k}_weights.ckpt', **params)
+    f'{DIR_RESULTS}/PNCF_base/PNCF_base_split_{k}_weights.ckpt', **params)
 
 params_opt = {
     'lr_low': 5e-4,

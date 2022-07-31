@@ -22,7 +22,7 @@ DATA_DIR = '../data'
 
 MAX_EPOCHS = 20
 DIR_RESULTS = '/cluster/scratch/piattigi/CIL/res_optuna/'
-EXPERIMENT_NAME = 'NCF_distribution'
+EXPERIMENT_NAME = 'PNCF_base'
 EXPERIMENT_NAME += '-'+str(uuid.uuid4())[:8]
 N_OPTUNA_TRIALS = 250
 NUM_WORKERS_LOADER = 4
