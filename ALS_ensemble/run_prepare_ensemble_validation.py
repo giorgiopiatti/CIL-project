@@ -10,7 +10,7 @@ from dataset import (extract_users_movies_ratings_lists, save_predictions,
                      save_predictions_from_pandas)
 
 DIR_RESULTS = '/cluster/scratch/piattigi/CIL/res_ensemble/'
-EXPERIMENT_NAME = 'ALS'
+EXPERIMENT_NAME = 'ALS_ensemble'
 
 os.makedirs(DIR_RESULTS+EXPERIMENT_NAME, exist_ok=True)
 
@@ -48,6 +48,6 @@ for i, emb_size in enumerate(emb_sizes):
 yhat_val = ensemble_results_matrix_val.mean(axis=0)
 yhat_test = ensemble_results_matrix_test.mean(axis=0)
 save_predictions_from_pandas(
-    f'{DIR_RESULTS}/{EXPERIMENT_NAME}/ALS_split_{split_id}_val_results.csv', yhat_val, val_pd)
+    f'{DIR_RESULTS}/{EXPERIMENT_NAME}/{EXPERIMENT_NAME}_split_{split_id}_val_results.csv', yhat_val, val_pd)
 save_predictions(
-    f'{DIR_RESULTS}/{EXPERIMENT_NAME}/ALS_split_{split_id}_test_results.csv', yhat_test)
+    f'{DIR_RESULTS}/{EXPERIMENT_NAME}/{EXPERIMENT_NAME}_split_{split_id}_test_results.csv', yhat_test)

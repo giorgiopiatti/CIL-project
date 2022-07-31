@@ -7,7 +7,7 @@ from libreco.data import DatasetPure
 from dataset import extract_users_movies_ratings_lists, save_predictions
 
 DIR_RESULTS = '/cluster/scratch/piattigi/CIL/res_ensemble/'
-EXPERIMENT_NAME = 'ALS'
+EXPERIMENT_NAME = 'ALS_ensemble'
 
 os.makedirs(DIR_RESULTS+EXPERIMENT_NAME, exist_ok=True)
 
