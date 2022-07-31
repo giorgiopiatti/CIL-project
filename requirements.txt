@@ -1,0 +1,10 @@
+LibRecommender==0.8.4
+neptune-optuna==0.9.14
+dask==2022.3.0
+dask-cuda==22.4.0
+dask-optuna==0.0.2
+numpy==1.22.4
+pandas==1.2.5
+neptune-client==0.15.2
+neptune-notebooks==0.9.0
+neptune-optuna==0.9.14
