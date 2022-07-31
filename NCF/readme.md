@@ -1,7 +1,7 @@
 # Neural Collaborative Filtering (NCF) 
 
 ### Model description
-
+Classical neural collaborative filtering, neural network model, which tries to learn users and movies embeddings and also the funtion used to combine them in order to get the score. Trained with a classical RMSE.
 
 ### Files
  - `run_prepare_baseline_final.py`: Computes the final prediction on the test dataset, using all available train data.

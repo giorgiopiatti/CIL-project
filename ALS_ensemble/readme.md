@@ -1,7 +1,7 @@
 # Alternating least squares ensemble (ALS ens.)
 
 ### Model description
-
+ALS ensemble is an ensemble of simple ALS models, where each model is inizialized with different hyperparameters. The ensemble prediction is obtained by taking the average among all models' predictions.
 
 ### Dependencies
 LibRecommender library: https://github.com/massquantity/LibRecommender
